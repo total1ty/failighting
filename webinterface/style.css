@@ -1,0 +1,116 @@
+body {
+    height=100%;
+    width=100%;
+    background:black;
+    color:white;
+    font-family: sans-serif;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.tabs {
+    --tabLabelHeight: 50px;
+    --tabLabelWidth: 180px;
+    --tabBorderWidth: 1px;
+
+    /* the tab labels are anchored here. */
+    position: relative;
+    /* shift the tab content down by the height of the labels, minus one border width. */
+    padding-top: calc(var(--tabLabelHeight) - var(--tabBorderWidth));
+}
+
+.tabs > input {
+    display: none;
+    position: fixed;
+}
+
+.tabs > label {
+    /* add the border width to the width to prevent "double" borders between adjacent labels */
+    width: calc(var(--tabLabelWidth) + var(--tabBorderWidth));
+    height: var(--tabLabelHeight);
+    line-height: var(--tabLabelHeight);
+    overflow: hidden;
+    font-weight: bold;
+    text-align: center;
+
+    /* this is the tab separator */
+    border: var(--tabBorderWidth) solid black;
+    box-sizing: border-box;
+
+    /* position tab labels relative to the container. */
+    position: absolute;
+    top: 0;
+}
+
+.tab0 { left: calc(var(--tabLabelWidth) * 0); }
+.tab1 { left: calc(var(--tabLabelWidth) * 1); }
+.tab2 { left: calc(var(--tabLabelWidth) * 2); }
+.tab3 { left: calc(var(--tabLabelWidth) * 3); }
+.tab4 { left: calc(var(--tabLabelWidth) * 4); }
+.tab5 { left: calc(var(--tabLabelWidth) * 5); }
+
+.tabs > label:hover {
+    cursor: pointer;
+    background-color: #111;
+    -webkit-transition: .2s;
+    transition: background-color .2s;
+}
+
+.tabs > input:checked + label {
+    background-color: #222;
+    border-bottom-style: none;
+}
+
+.tabs > div {
+    background-color: #222;
+    padding: 1em;
+    border: var(--tabBorderWidth) solid black;
+}
+
+.tabs > input:not(:checked) + label + div {
+    display: none;
+    position: fixed;
+}
+
+#devices {
+  padding: 5px;
+}
+
+#devices > .device {
+  background-color:#111;
+  margin: 5px;
+}
+
+.slider {
+    -webkit-appearance: slider-vertical;
+    writing-mode: bt-lr;
+    width: 15px;
+    height: 150px;
+    background: black;
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 15px; /* Set a specific slider handle width */
+    height: 20px; /* Slider handle height */
+    background: #4CAF50; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+    width: 15px; /* Set a specific slider handle width */
+    height: 20px; /* Slider handle height */
+    background: #4CAF50; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+}
