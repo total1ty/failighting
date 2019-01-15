@@ -1,3 +1,2 @@
 # failighting
-failighting
 hello.
