@@ -76,11 +76,12 @@ body {
 }
 
 
-#devices {
+.devices {
 
 }
 
 .device {
+  display: inline-block;
   background-color:#111;
   margin: 5px;
 }
@@ -97,7 +98,7 @@ body {
   background: red;
 }
 
-.statusLight#connecting {
+.statusLight#opening {
   background: orange;
 }
 
@@ -106,7 +107,7 @@ body {
 }
 
 .statusLight#tx {
-  background: pink;
+  background: #1360ff;
 }
 
 .statusLight#rx {
@@ -116,31 +117,38 @@ body {
 .slider {
     -webkit-appearance: slider-vertical;
     writing-mode: bt-lr;
-    width: 15px;
-    height: 150px;
+    width: 30px;
+    height: 200px;
     background: black;
-    outline: none; /* Remove outline */
-    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    outline: none;
+    opacity: 0.8;
+    -webkit-transition: .2s;
     transition: opacity .2s;
+    margin: 0;
 }
 
 .slider:hover {
-    opacity: 1; /* Fully shown on mouse-over */
+    opacity: 1;
 }
 
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none; /* Override default look */
     appearance: none;
-    width: 15px; /* Set a specific slider handle width */
-    height: 20px; /* Slider handle height */
-    background: #4CAF50; /* Green background */
-    cursor: pointer; /* Cursor on hover */
+    outline: none;
+    width: 30px;
+    height: 10px;
+    background: #333;
+    cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
-    width: 15px; /* Set a specific slider handle width */
-    height: 20px; /* Slider handle height */
-    background: #4CAF50; /* Green background */
-    cursor: pointer; /* Cursor on hover */
+    outline: none;
+    width: 30px;
+    height: 10px;
+    background: #333;
+    cursor: pointer;
+}
+
+#debug {
+  display: none;
 }

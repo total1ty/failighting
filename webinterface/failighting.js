@@ -1,48 +1,49 @@
-var keepAliveInterval = 5;
-
-var heartbeat = 0;
-
 var devices = [];
 
-//TODO: read config.json and create failWebSocketDevices accordingly
+window.onload = setup;
 
-//devices.push(new failWebSocketDevice("ESP8266-01", "192.168.0.191", 81, 9));
-//devices.push(new failWebSocketDevice("ESP8266-02", "192.168.0.192", 1337, 9));
+function setup() {
 
-/*devices.push(new failWebSocketDevice("ESP8266-01", "192.168.0.191", 81, 9, {
-  updateValues: (values) => {
-    //console.log("UPDATE!!!!! " + values);
+  //TODO: put this shit in a config file
+  var config = {
+    "deviceIPs": ["192.168.0.191", "192.168.0.192", "192.168.0.193", "192.168.0.194", "192.168.0.195"],
+  };
+
+  //INITIALIZE failWebSocketDevices
+  if (config.deviceIPs) {
+    config.deviceIPs.forEach((deviceIP) => {
+      devices.push(new failWebSocketDevice("ESP8266-"+deviceIP.substr(deviceIP.length - 3), deviceIP, 1337, 9, {
+
+        updateValuesHandler: (device) => {
+          for (var i=0; i<device.values.length; i++) {
+            var slider = document.getElementById(device.name+"_"+i);
+            if (slider.value != device.values[i]) {
+              slider.value = device.values[i];
+            }
+          };
+        },
+
+        updateStateHandler: (name, state) => {
+          var device = document.querySelector("#devices > #"+name+" > .statusLight");
+          if (device) {
+            if (state == "online" && device.id == "rx") {
+              window.clearTimeout();
+              window.setTimeout(function(name) {
+                device.id = "online";
+              }, 200);
+            }
+            else {
+              device.id = state;
+            }
+          }
+        }
+      }));
+    });
   }
-}));
-*/
+  addDevicestoDOM();
+}
 
-devices.push(new failWebSocketDevice("ESP8266-02", "192.168.0.192", 1337, 9, {
-  updateValuesHandler: (name, values) => {
-    var device = document.querySelector("#devices > #"+name+" > .sliders");
-    if (device) {
-      //TODO
-    }
-    //console.log("UPDATE!!!!! " + values);
-  },
-  updateStateHandler: (name, state) => {
-    var device = document.querySelector("#devices > #"+name+" > .statusLight");
-    if (device) {
-      device.id = state;
-      if (state == "rx") {
-        window.setTimeout(function() {device.id = "online"}, 100);
-      }
-    }
-  }
-}));
-
-/*devices.push(new failWebSocketDevice("ESP8266-03", "192.168.0.193", 1337, 9, {
-  updateValuesHandler: (values) => {
-    //TODO
-    //console.log("UPDATE!!!!! " + values);
-  }
-}));*/
-
-function addtoDOM() {
+function addDevicestoDOM() {
   devices.forEach((device) => {
     let container = document.getElementById("devices");
     let devicediv = container.appendChild(document.createElement("div"));
@@ -71,25 +72,11 @@ function addtoDOM() {
       slider.setAttribute("value", value);
       slider.setAttribute("step", 1);
       slider.setAttribute("orient", "vertical");
-      //slider.addEventListener("input", setLED(i, slider.value));
+      
       slider.addEventListener("input", () => {
          device.values[i] = Number(slider.value);
-         device.updateValues();
+         device.sendValues();
       });
     };
   });
 }
-
-function wsSend(toSend) {
-  devices[0].send(toSend);
-  //device01.send(toSend);
-
-};
-
-function gschichtn() {
-  wsSend("{\"info\":}");
-};
-
-function setLED(port, value) {
-	wsSend("p"+port+"v"+value);
-};
