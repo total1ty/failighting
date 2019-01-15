@@ -19,29 +19,14 @@
 					loel
 				</div>
 
-				<input id="sliders-tab" type="radio" name="tabs"/>
-				<label for="sliders-tab" class="tab1">Sliders</label>
-				<div class="sliders">
-					<label for="value1">R</label><input type="range" id="value1" min="0" max="1023" value="0" step="1" class="slider" orient="vertical" oninput="setLED(0, this.value)" />
-					<label for="value2">G</label><input type="range" id="value2" min="0" max="1023" value="0" step="1" class="slider" orient="vertical" oninput="setLED(1, this.value)" />
-					<label for="value3">B</label><input type="range" id="value3" min="0" max="1023" value="0" step="1" class="slider" orient="vertical" oninput="setLED(2, this.value)" />
-					<label for="value4">W</label><input type="range" id="value4" min="0" max="1023" value="0" step="1" class="slider" orient="vertical" oninput="setLED(3, this.value)" />
-					<label for="value5">W</label><input type="range" id="value5" min="0" max="1023" value="0" step="1" class="slider" orient="vertical" oninput="setLED(4, this.value)" onchange="setLED(4, this.value)" />
-					<label for="value6">R</label><input type="range" id="value6" min="0" max="1023" value="0" step="1" class="slider" orient="vertical" oninput="setLED(5, this.value)" />
-					<label for="value7">G</label><input type="range" id="value7" min="0" max="1023" value="0" step="1" class="slider" orient="vertical" oninput="setLED(6, this.value)" />
-					<label for="value8">B</label><input type="range" id="value8" min="0" max="1023" value="0" step="1" class="slider" orient="vertical" oninput="setLED(7, this.value)" />
-					<label for="value9">8</label><input type="range" id="value9" min="0" max="1023" value="0" step="1" class="slider" orient="vertical" oninput="setLED(8, this.value)" />
-					<input type="button" onclick="setLED(4, 1023)" value="setLED(4, 1023)">
-				</div>
-
 				<input id="devices-tab" type="radio" name="tabs"/>
-				<label for="devices-tab" class="tab2">Devices</label>
+				<label for="devices-tab" class="tab1">Devices</label>
 				<div id="devices">
 					<input type="button" onclick="addtoDOM();" value="addtoDOM();"><br/>
 				</div>
 
 				<input id="debug-tab" type="radio" name="tabs"/>
-				<label for="debug-tab" class="tab3">Debug</label>
+				<label for="debug-tab" class="tab2">Debug</label>
 				<div>
 					<input type="button" onclick="devices[0].open();" value="devices[0].open();"><br/>
 					<input type="button" onclick="wsSend('LED')" value="Blink LED"><br/>

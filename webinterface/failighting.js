@@ -17,29 +17,51 @@ var devices = [];
 */
 
 devices.push(new failWebSocketDevice("ESP8266-02", "192.168.0.192", 1337, 9, {
-  updateValues: (values) => {
+  updateValuesHandler: (name, values) => {
+    var device = document.querySelector("#devices > #"+name+" > .sliders");
+    if (device) {
+      //TODO
+    }
     //console.log("UPDATE!!!!! " + values);
+  },
+  updateStateHandler: (name, state) => {
+    var device = document.querySelector("#devices > #"+name+" > .statusLight");
+    if (device) {
+      device.id = state;
+      if (state == "rx") {
+        window.setTimeout(function() {device.id = "online"}, 100);
+      }
+    }
   }
 }));
 
-devices.push(new failWebSocketDevice("ESP8266-03", "192.168.0.193", 1337, 9, {
-  updateValues: (values) => {
+/*devices.push(new failWebSocketDevice("ESP8266-03", "192.168.0.193", 1337, 9, {
+  updateValuesHandler: (values) => {
+    //TODO
     //console.log("UPDATE!!!!! " + values);
   }
-}));
+}));*/
 
 function addtoDOM() {
   devices.forEach((device) => {
     let container = document.getElementById("devices");
     let devicediv = container.appendChild(document.createElement("div"));
+
     devicediv.id = device.name;
     devicediv.classList.add("device");
-    devicediv.classList.add("device_"+device.name);
-    devicediv.appendChild(document.createElement("h3"));
-    devicediv.lastChild.textContent = device.ip;
+
+    let heading = devicediv.appendChild(document.createElement("h3"));
+    heading.textContent = device.ip;
+    heading.classList.add("statusLight");
+    heading.id = "offline";
+
     devicediv.appendChild(document.createTextNode(device.name));
+
+    let sliders = devicediv.appendChild(document.createElement("div"));
+    sliders.classList.add("sliders");
+
     for (let i=0; i<device.channels; i++) {
-      let slider = devicediv.appendChild(document.createElement("input"));
+      let slider = sliders.appendChild(document.createElement("input"));
       let value = device.values[i];
       slider.classList.add("slider");
       slider.id = device.name + "_" + i;

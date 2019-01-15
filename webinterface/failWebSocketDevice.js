@@ -7,9 +7,9 @@ class failWebSocketDevice {
     this.handlers = handlers;
     this.msg = "";
     this.values = new Array(this.channels).fill(0);
-    this.state = "OFFLINE";
+    this.state = "offline"; //states: offline, connecting, online, tx, rx
 
-    //TODO: Automatisierte Info-Abfrage
+    //TODO: automated gathering of device info by json request
 
     this.open();
 
@@ -18,27 +18,18 @@ class failWebSocketDevice {
 
   updateState(state) {
     this.state = state;
+    this.handlers.updateStateHandler(this.name, this.state);
   }
 
-  updateValues() {
+  async updateValues() {
     let jsonMessage = "{\"values\":"+JSON.stringify(this.values)+"}";
     this.send(jsonMessage);
   }
 
-  updateDOM() {
-    let device = document.getElementById(this.name); //WIP...
-    if (device) {
-      //CONSTRUCT DOM
-      device.innerHTML = this.ip+', '+this.name+': dom<br/>' + this.values;
-    }
-    else {
-      //UPDATE DOM
-      device.innerHTML = "nah";
-    }
-  }
-
   async send(payload) {
     if (this.connection.readyState==this.connection.OPEN) {
+      this.updateState("tx");
+
       try {
         this.connection.send(payload);
         //console.log(this.name+", "+this.ip+": TX "+payload);
@@ -65,21 +56,25 @@ class failWebSocketDevice {
     this.connection.addEventListener("open", () => {
       console.log("connection opened " + this.ip);
       document.getElementById("debug").innerHTML = this.name+", "+this.ip+": OPEN";
+      this.updateState("online");
     });
 
     this.connection.addEventListener("close", () => {
       console.log("[[[[[[[[[[[closedEvent]]]]]]]]]")
       document.getElementById("debug").innerHTML = this.name+", "+this.ip+": CLOSED";
+      this.updateState("offline");
     });
 
     this.connection.addEventListener("error", (e) => {
       console.log(this.name+", "+this.ip+": ERROR "+e);
       document.getElementById("debug").innerHTML = this.name+", "+this.ip+": ERROR "+e;
+      this.updateState("offline");
     });
 
     this.connection.addEventListener("message", (message) => {
       //console.log(this.name+", "+this.ip+": RX " + message.data);
       document.getElementById("debug").innerHTML = this.name+", "+this.ip+": RX " + message.data;
+      this.updateState("rx");
 
       try {
          this.msg = JSON.parse(message.data);
@@ -88,14 +83,12 @@ class failWebSocketDevice {
         console.log("JSON PARSE ERROR " + this.ip + " - " + message.data);
       }
 
-      var sliders = document.getElementsByClassName("slider");
-
       if(this.msg.values) {
         for (var i=0; i<this.msg.values.length; i++) {
-          sliders[i].value =this.msg.values[i];
           this.values[i] = this.msg.values[i];
         }
-        this.handlers.updateValues(this.values);
+        this.handlers.updateValuesHandler(this.name, this.values);
+        //this.updateState("online");
       }
 
     });
@@ -103,7 +96,7 @@ class failWebSocketDevice {
 
   async close() {
     this.connection.close();
-    //updateState("OFFLINE");
+    this.updateState("offline");
     console.log(this.name+', '+this.ip+': connection closed');
   }
 }

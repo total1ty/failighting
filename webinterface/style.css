@@ -11,8 +11,8 @@ body {
 }
 
 .tabs {
-    --tabLabelHeight: 50px;
-    --tabLabelWidth: 180px;
+    --tabLabelHeight: 30px;
+    --tabLabelWidth: 100px;
     --tabBorderWidth: 1px;
 
     /* the tab labels are anchored here. */
@@ -67,6 +67,7 @@ body {
     background-color: #222;
     padding: 1em;
     border: var(--tabBorderWidth) solid black;
+    padding: 5px;
 }
 
 .tabs > input:not(:checked) + label + div {
@@ -74,13 +75,42 @@ body {
     position: fixed;
 }
 
+
 #devices {
-  padding: 5px;
+
 }
 
-#devices > .device {
+.device {
   background-color:#111;
   margin: 5px;
+}
+
+.device > h3 {
+  margin: 0px;
+}
+
+.statusLight {
+  background: black;
+}
+
+.statusLight#offline {
+  background: red;
+}
+
+.statusLight#connecting {
+  background: orange;
+}
+
+.statusLight#online {
+  background: green;
+}
+
+.statusLight#tx {
+  background: pink;
+}
+
+.statusLight#rx {
+  background: blue;
 }
 
 .slider {
