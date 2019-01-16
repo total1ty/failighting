@@ -13,9 +13,10 @@
 	<body>
 		<div id="main" class="main">
 			<div class="tabs">
+
 				<input id="control-tab" type="radio" name="tabs"/>
 				<label for="control-tab" class="tab0">Control</label>
-				<div>
+				<div id="control">
 					loel tbd
 				</div>
 
@@ -26,18 +27,10 @@
 
 				<input id="debug-tab" type="radio" name="tabs"/>
 				<label for="debug-tab" class="tab2">Debug</label>
-				<div>
-					<input type="button" onclick="devices[0].open();" value="devices[0].open();"><br/>
-					<input type="button" onclick="wsSend('LED')" value="Blink LED"><br/>
-					<input type="button" onclick="wsSend('RESET')" value="RESET"><br/>
-					<input type="button" onclick="wsSend('info')" value="wsSend('info')"><br/>
-			 		<input type="button" onclick="gschichtn()" value="gschichtn()"><br/>
-					<input type="button" onclick="init()" value="connect"/><p></p>
+				<div id="debug">
 				</div>
+
 			</div>
-		</div>
-		<div id="debug">
-			debug info goes here
 		</div>
 	</body>
 </html>
