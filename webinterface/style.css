@@ -116,7 +116,7 @@ body {
   border-radius: 50%;
   border: 2px solid #fff;
   border-color: #fff transparent #fff transparent;
-  animation: anim 1s linear infinite;
+  animation: anim 1.337s linear infinite;
 }
 
 @keyframes anim {
@@ -125,11 +125,11 @@ body {
     opacity: 0;
   }
   30% {
-    transform: rotate(900deg);
+    transform: rotate(-1337deg);
     opacity: 1;
   }
   100% {
-    transform: rotate(360deg);
+    transform: rotate(-360deg);
     opacity: 0;
   }
 }
