@@ -12,6 +12,7 @@ function setup() {
   //INITIALIZE failWebSocketDevices
   if (config.deviceIPs) {
     config.deviceIPs.forEach((deviceIP) => {
+      //temporary fucked-up init. future failWebSocketDevices shall be initialized by IP only, with all other info being pulled from the ESP itself via JSON
       devices.push(new failWebSocketDevice("ESP8266-"+deviceIP.substr(deviceIP.length - 3), deviceIP, 1337, 9, {
 
         updateValuesHandler: (device) => {
@@ -72,7 +73,7 @@ function addDevicestoDOM() {
       slider.setAttribute("value", value);
       slider.setAttribute("step", 1);
       slider.setAttribute("orient", "vertical");
-      
+
       slider.addEventListener("input", () => {
          device.values[i] = Number(slider.value);
          device.sendValues();
