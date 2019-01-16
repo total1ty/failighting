@@ -104,14 +104,14 @@ body {
   background: #950;
 }
 
-.statusLight#opening:after {
+.statusLight#opening:after,.statusLight#tx:after,.statusLight#rx:after {
   position: relative;
   top:2px;
   left:5px;
   content: "";
   display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   margin: 0;
   border-radius: 50%;
   border: 2px solid #fff;
@@ -119,31 +119,32 @@ body {
   animation: anim 1.337s linear infinite;
 }
 
+
 @keyframes anim {
   0% {
-    transform: rotate(0deg);
-    opacity: 0;
-  }
-  30% {
-    transform: rotate(-1337deg);
+    transform: rotate(55deg);
     opacity: 1;
   }
-  100% {
-    transform: rotate(-360deg);
+  30% {
+    transform: rotate(1337deg);
     opacity: 0;
+  }
+  100% {
+    transform: rotate(360deg);
+    opacity: 1;
   }
 }
 
-.statusLight#online {
-  background: green;
+.statusLight#online,.statusLight#rx {
+  background: #080;
 }
 
 .statusLight#tx {
-  background: #16f;
+  background: #0a8;
 }
 
-.statusLight#rx {
-  background: blue;
+.statusLight#rx:after {
+  transform: rotate(0deg) !important;
 }
 
 .slider {
