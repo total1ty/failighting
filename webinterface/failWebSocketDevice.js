@@ -5,20 +5,14 @@ class failWebSocketDevice {
     this.port = port;
     this.channels = channels;
     this.handlers = handlers;
-    this.msg = "";
     this.values = new Array(this.channels).fill(0);
     this.state = "offline"; //states: offline, opening, online, tx, rx
-
-    //TODO: automated gathering of device info by json request
-
-    this.open();
   }
 
   updateState(state) {
     this.state = state;
     this.handlers.updateStateHandler(this.name, this.state);
   }
-
 
   async sendValues() {
     let jsonMessage = "{\"values\":"+JSON.stringify(this.values)+"}";

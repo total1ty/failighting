@@ -1,20 +1,22 @@
+var keepAliveInterval = 5;
 var devices = [];
 
 window.onload = setup;
 
 function setup() {
-
   //TODO: put this shit in a config file
   var config = {
-    "deviceIPs": ["192.168.0.191", "192.168.0.192", "192.168.0.193", "192.168.0.194", "192.168.0.195"],
+    "devices": ["192.168.0.191", "192.168.0.192", "192.168.0.193", "192.168.0.194", "192.168.0.195"],
   };
 
   //INITIALIZE failWebSocketDevices
-  if (config.deviceIPs) {
-    config.deviceIPs.forEach((deviceIP) => {
-      //temporary fucked-up init. future failWebSocketDevices shall be initialized by IP only, with all other info being pulled from the ESP itself via JSON
-      devices.push(new failWebSocketDevice("ESP8266-"+deviceIP.substr(deviceIP.length - 3), deviceIP, 1337, 9, {
+  if (config.devices) {
+    for (var i=0; i<config.devices.length; i++) {
+      let deviceIP = config.devices[i];
 
+      //temporary fucked-up init. future failWebSocketDevices shall be initialized by IP only, with all other info being pulled from the ESP itself via JSON
+      devices[i] = new failWebSocketDevice("ESP8266-"+deviceIP.substr(deviceIP.length - 3), deviceIP, 1337, 9, {
+        //update slider values
         updateValuesHandler: (device) => {
           for (var i=0; i<device.values.length; i++) {
             var slider = document.getElementById(device.name+"_"+i);
@@ -23,7 +25,7 @@ function setup() {
             }
           };
         },
-
+        //update device state display
         updateStateHandler: (name, state) => {
           var device = document.querySelector("#devices > #"+name+" > .statusLight");
           if (device) {
@@ -38,14 +40,14 @@ function setup() {
             }
           }
         }
-      }));
-    });
+      });
+      addDevicetoDOM(devices[i]);
+      devices[i].open();
+    };
   }
-  addDevicestoDOM();
 }
 
-function addDevicestoDOM() {
-  devices.forEach((device) => {
+function addDevicetoDOM(device) {
     let container = document.getElementById("devices");
     let devicediv = container.appendChild(document.createElement("div"));
 
@@ -70,7 +72,7 @@ function addDevicestoDOM() {
       slider.setAttribute("type", "range");
       slider.setAttribute("min", 0);
       slider.setAttribute("max", 1023);
-      slider.setAttribute("value", value);
+      slider.setAttribute("value", 0);
       slider.setAttribute("step", 1);
       slider.setAttribute("orient", "vertical");
 
@@ -79,5 +81,5 @@ function addDevicestoDOM() {
          device.sendValues();
       });
     };
-  });
+
 }

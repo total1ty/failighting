@@ -65,14 +65,7 @@ void broadcastOutputs() {
   jsonObject.printTo(buf);
   webSocket.broadcastTXT(buf);
   jsonBuffer.clear();
-};
-
-void updateOutput(int port, int value) {
-  OutputValues[port] = value;
-  analogWrite(OutputPins[port], value);
-  broadcastOutputs();
 }
-
 
 void updateOutputs() {
   for (int i=0; i<OutputPinCount; i++) {
