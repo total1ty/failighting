@@ -95,7 +95,7 @@ body {
 }
 
 .statusLight#offline {
-  background: red;
+  background: #300;
 }
 
 .statusLight#opening {
@@ -107,7 +107,7 @@ body {
 }
 
 .statusLight#tx {
-  background: #1360ff;
+  background: #16f;
 }
 
 .statusLight#rx {
