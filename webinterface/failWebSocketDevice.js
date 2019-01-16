@@ -35,7 +35,6 @@ class failWebSocketDevice {
         }
         catch (error) {
           console.log("SEND ERROR: "+error);
-          document.getElementById("debug").innerHTML = "SEND ERROR  - "+error;
         }
       }
     	else {
@@ -60,7 +59,6 @@ class failWebSocketDevice {
       });
 
       this.connection.addEventListener("close", () => {
-        console.log(this.name+", "+this.ip+": CONNECTION CLOSED");
         this.updateState("offline");
         this.values.fill(0);
         this.handlers.updateValuesHandler(this);
@@ -72,8 +70,6 @@ class failWebSocketDevice {
       });
 
       this.connection.addEventListener("message", (message) => {
-        //console.log(this.name+", "+this.ip+": RX " + message.data);
-        //document.getElementById("debug").innerHTML = this.name+", "+this.ip+": RX " + message.data;
         this.updateState("rx");
 
         try {
