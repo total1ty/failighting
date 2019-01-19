@@ -1,2 +1,2 @@
 # failighting
-![Alt text](artwork/icon_1024.png?raw=true "Title")
+![Alt text](artwork/icon_512.png?raw=true "Title")
