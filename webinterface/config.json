@@ -4,19 +4,35 @@
   "devices": [
     {"name":"esp-01", "ip":"192.168.0.191", "channels":9},
     {"name":"esp-02", "ip":"192.168.0.192", "channels":9},
-    {"name":"esp-03", "ip":"192.168.0.193", "channels":4},
-    {"name":"esp-04", "ip":"192.168.0.194", "channels":4},
-    {"name":"esp-05", "ip":"192.168.0.195", "channels":16}
+    {"name":"esp-03", "ip":"192.168.0.193", "channels":9},
+    {"name":"esp-04", "ip":"192.168.0.194", "channels":1},
+    {"name":"esp-05", "ip":"192.168.0.195", "channels":16},
+    {"name":"failighting-to-dmx-01", "ip":"192.168.0.196", "channels":512}
   ],
   "scenes": [
-    {"name":"testScene", "values": [
-        {"esp-01":[0,1,2,3]},
-        {"esp-02":[4,5,6,7]}
+    {"name":"testScene", "group":"livingroom", "devices": [
+        {"name":"esp-02", "values":[0,1,2,30,40,50,60,70,8]},
+        {"name":"esp-03", "values":[40,50,60,7,8,9,10,110,120]}
       ]
     },
-    {"name":"testScene2", "values": [
-        {"esp-01":[100,100,200,300]},
-        {"esp-02":[400,500,600,700]}
+    {"name":"testScene2", "group":"livingroom", "devices": [
+        {"name":"esp-01", "values":[100,100,200,300,400,500,600,700,800]},
+        {"name":"esp-02", "values":[400,500,600,700,800,900,1000,900,800]},
+        {"name":"esp-03", "values":[400,500,600,700,600,500,400,800,600]}
+      ]
+    },
+    {"name":"testScene3", "group":"office", "devices": [
+        {"name":"esp-03", "values":[100,100,200,300]},
+        {"name":"esp-04", "values":[400,500,600,700]}
+      ]
+    },
+    {"name":"testScene4", "group":"global", "devices": [
+        {"name":"esp-05", "values":[100,100,200,300]}
+      ]
+    },
+    {"name":"testScene5", "group":"global", "devices": [
+        {"name":"esp-04", "values":[100,100,200,300]},
+        {"name":"esp-05", "values":[400,500,600,700]}
       ]
     }
   ]

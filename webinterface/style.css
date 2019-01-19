@@ -4,10 +4,18 @@ body {
     background:black;
     color:white;
     font-family: sans-serif;
+    margin: 0;
 }
 
-.hidden {
-    display: none !important;
+h2 {
+  font-size: 16px;
+  padding: 4px;
+  margin: 0px;
+}
+
+h3 {
+  font-size: 14px;
+  margin: 0px;
 }
 
 .tabs {
@@ -67,7 +75,16 @@ body {
     background-color: #222;
     padding: 1em;
     border: var(--tabBorderWidth) solid black;
-    padding: 5px;
+    padding: 0;
+    padding-top: 5px;
+}
+
+.tabs > div > div {
+  background-color:#111;
+  font-size: 14px;
+  margin: 4px;
+  display: inline-block;
+  float:top;
 }
 
 .tabs > input:not(:checked) + label + div {
@@ -76,20 +93,37 @@ body {
 }
 
 
-.devices {
 
+.scene {
+  background-color: #333;
+  color: #fff;
+  margin: 0;
+  padding: 4px;
+  width: 180px;
+  height: 50px;
+	display:inline-block;
+	cursor:pointer;
+	border:1px solid #111;
 }
 
+.scene:hover {
+  background-color: #111;
+  -webkit-transition: .2s;
+  transition: background-color .2s;
+}
+
+.scene:active {
+  background-color: #222;
+  position:relative;
+  top:1px;
+}
+
+.devices {
+  display: block !important;
+}
 .device {
   font-size: 14px;
-  display: inline-block;
-  background-color:#111;
-  margin: 5px;
-}
-
-.device > h3 {
-  font-size: 14px;
-  margin: 0px;
+  min-width: 130px;
 }
 
 .statusLight {
@@ -106,7 +140,7 @@ body {
 
 .statusLight#opening:after,.statusLight#tx:after,.statusLight#rx:after {
   position: relative;
-  top:2px;
+  top:0px;
   left:5px;
   content: "";
   display: inline-block;
@@ -118,7 +152,6 @@ body {
   border-color: #fff transparent #fff transparent;
   animation: anim 1.337s linear infinite;
 }
-
 
 @keyframes anim {
   0% {
@@ -188,4 +221,8 @@ body {
 
 #debug {
 
+}
+
+.hidden {
+    display: none !important;
 }

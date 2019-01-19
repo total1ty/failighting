@@ -110,7 +110,34 @@ class failDevice {
 }
 
 class failScene {
-  constructor() {
+  constructor(scenedata) {
+    this.name = scenedata.name;
+    this.group = scenedata.group;
+    this.devicevalues = scenedata.devices;
+    //console.log("scene "+this.name);
+    //console.log(this.devicevalues[0].values);
 
-  }
-}
+    //gather involved devices
+    this.devices = {};
+    for (let i=0; i<this.devicevalues.length; i++) {
+        for (let j=0; j<devices.length; j++) {
+          if (this.devicevalues[i].name == devices[j].name) {
+            this.devices[i] = devices[j];
+          }
+        }
+    }
+  };
+
+  trigger() {
+    for (let i=0; i<this.devicevalues.length; i++) {
+      if(this.devices[i].values.length == this.devicevalues[i].values.length) {
+        this.devices[i].values = this.devicevalues[i].values;
+        this.devices[i].sendValues();
+      }
+      else {
+        console.log("SCENE: "+this.name+" - DEVICE: "+this.devices[i].name+" - ERROR: tried to set keyframe with non-matching value count. ignoring device. you can ignore this too if you dont care.")
+      }
+    }
+    //console.log("triggered: "+this.name);
+  };
+};

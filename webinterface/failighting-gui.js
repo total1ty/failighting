@@ -1,5 +1,6 @@
 var keepAliveInterval = 5;
 var devices = [];
+var scenes = [];
 
 const setup = async() => {
 
@@ -49,9 +50,6 @@ const setup = async() => {
               device.id = state;
             }
           }
-        },
-        addtoDOMHandler: (device) => {
-          addDevicetoDOM(device);
         }
       }
 
@@ -64,7 +62,9 @@ const setup = async() => {
   //INITIALIZE failScenes
   if (config.scenes) {
     for (var i=0; i<config.scenes.length; i++) {
-      console.log("scene "+config.scenes[i].name)
+      scenes[i] = new failScene(config.scenes[i]);
+
+      addScenetoDOM(scenes[i]);
     };
   };
 };
@@ -76,7 +76,7 @@ const addDevicetoDOM = (device) => {
     devicediv.id = device.name;
     devicediv.classList.add("device");
 
-    let heading = devicediv.appendChild(document.createElement("h3"));
+    let heading = devicediv.appendChild(document.createElement("h2"));
     heading.textContent = device.ip;
     heading.classList.add("statusLight");
     heading.id = device.state;
@@ -104,6 +104,40 @@ const addDevicetoDOM = (device) => {
       });
     };
 }
+
+
+
+const addScenetoDOM = (scenedata) => {
+  if (document.querySelector("#scenes > #"+scenedata.group)) {
+    //select existing group
+    var groupdiv = document.querySelector("#scenes > #"+scenedata.group);
+  }
+  else {
+    //create new group
+    var groupdiv = document.getElementById("scenes").appendChild(document.createElement("div"));
+    groupdiv.id = scenedata.group;
+    groupdiv.classList.add("scene-group");
+
+    let heading = groupdiv.appendChild(document.createElement("h2"));
+    heading.textContent = scenedata.group;
+  };
+
+
+  //scene in die group reintun tun
+  let scene = groupdiv.appendChild(document.createElement("div"));
+  scene.id = scenedata.name;
+  scene.classList.add("scene");
+
+  let text = scene.appendChild(document.createElement("h3"));
+  text.textContent = scenedata.name;
+
+  scene.addEventListener("click", () => {
+     scenedata.trigger();
+  });
+
+}
+
+
 
 const fadeTest = async () => {
 
