@@ -5,10 +5,8 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, height=device-height">
 		<link rel="stylesheet" type="text/css" href="style.css">
-
-		<script src="failWebSocketDevice.js"></script>
 		<script src="failighting.js"></script>
-
+		<script src="failWebSocketDevice.js"></script>
 	</head>
 	<body>
 		<div id="main" class="main">
@@ -28,6 +26,8 @@
 				<input id="debug-tab" type="radio" name="tabs"/>
 				<label for="debug-tab" class="tab2">Debug</label>
 				<div id="debug">
+					<span onclick="fadeTest();" style="background-color:grey;">Fade Test (in development)</span>
+					<span onclick="devices[1].init();" style="background-color:grey;">init device01</span>
 				</div>
 
 			</div>

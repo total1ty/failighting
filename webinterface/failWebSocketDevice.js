@@ -1,12 +1,16 @@
 class failWebSocketDevice {
-  constructor(name, ip, port, channels, handlers) {
-    this.name = name;
+  constructor(ip, name, channels) {
+    this.displayname = name;
     this.ip = ip;
-    this.port = port;
+    this.port = config.port;
     this.channels = channels;
-    this.handlers = handlers;
-    this.values = new Array(this.channels).fill(0);
     this.state = "offline"; //states: offline, opening, online, tx, rx
+  }
+
+  async init() {
+    await this.open();
+    this.name = this.displayname;
+    this.values = new Array(this.channels).fill(0);
   }
 
   updateState(state) {
@@ -43,13 +47,16 @@ class failWebSocketDevice {
   }
 
   async open() {
+
     if (this.state=="offline") {
       this.updateState("opening");
+
       this.connection = new WebSocket("ws://"+this.ip+":"+this.port+"/");
 
       this.connection.addEventListener("open", () => {
         console.log(this.name+", "+this.ip+": CONNECTION OPENED");
         this.updateState("online");
+        this.send("{\"info\":\"\"}");
       });
 
       this.connection.addEventListener("close", () => {
@@ -74,17 +81,24 @@ class failWebSocketDevice {
         }
 
         if(this.msg.values) {
-          for (var i=0; i<this.msg.values.length; i++) {
-            this.values[i] = this.msg.values[i];
+          for (var i=0; i<this.values.length; i++) {
+              this.values[i] = this.msg.values[i];
           }
           this.handlers.updateValuesHandler(this);
-          this.updateState("online");
         }
 
+        if(this.msg.info) {
+          //this.name = this.msg.info.name;
+          //this.handlers.addtoDOMHandler(this);
+        }
+
+        this.updateState("online");
       });
+      return 1;
     }
     else {
       //console.log("OPEN CALLED BUT STATE NOT OFFLINE");
+      return 0;
     }
   }
 

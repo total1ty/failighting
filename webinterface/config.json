@@ -1,0 +1,23 @@
+{
+  "port": 1337,
+  "maxfps": 60,
+  "devices": [
+    {"name":"esp-01", "ip":"192.168.0.191", "channels":9},
+    {"name":"esp-02", "ip":"192.168.0.192", "channels":9},
+    {"name":"esp-03", "ip":"192.168.0.193", "channels":4},
+    {"name":"esp-04", "ip":"192.168.0.194", "channels":4},
+    {"name":"esp-05", "ip":"192.168.0.195", "channels":16}
+  ],
+  "scenes": [
+    {"name":"testScene", "values": [
+        {"esp-01":[0,1,2,3]},
+        {"esp-02":[4,5,6,7]}
+      ]
+    },
+    {"name":"testScene2", "values": [
+        {"esp-01":[100,100,200,300]}, 
+        {"esp-02":[400,500,600,700]}
+      ]
+    }
+  ]
+}

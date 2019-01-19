@@ -1,21 +1,31 @@
 var keepAliveInterval = 5;
 var devices = [];
 
-window.onload = setup;
+const setup = async() => {
 
-function setup() {
-  //TODO: put this shit in a config file
-  var config = {
-    "devices": ["192.168.0.191", "192.168.0.192", "192.168.0.193", "192.168.0.194", "192.168.0.195"],
-  };
+  //READ CONFIG config.json
+  await fetch('./config.json')
+    .then(function(response) {
+      if (!response.ok) {
+        throw new Error("HTTP error, status = " + response.status);
+      }
+      return response.json();
+    })
+    .then(function(json) {
+      config = json;
+    })
+    .catch(function(error) {
+      console.log('JSON Read Error: ' + error.message)
+    });
 
   //INITIALIZE failWebSocketDevices
   if (config.devices) {
     for (var i=0; i<config.devices.length; i++) {
-      let deviceIP = config.devices[i];
+      let device = config.devices[i];
 
-      //temporary fucked-up init. future failWebSocketDevices shall be initialized by IP only, with all other info being pulled from the ESP itself via JSON
-      devices[i] = new failWebSocketDevice("ESP8266-"+deviceIP.substr(deviceIP.length - 3), deviceIP, 1337, 9, {
+      devices[i] = new failWebSocketDevice(device.ip, device.name, device.channels);
+
+      devices[i].handlers = {
         //update slider values
         updateValuesHandler: (device) => {
           for (var i=0; i<device.values.length; i++) {
@@ -39,15 +49,20 @@ function setup() {
               device.id = state;
             }
           }
+        },
+        addtoDOMHandler: (device) => {
+          addDevicetoDOM(device);
         }
-      });
-      addDevicetoDOM(devices[i]);
-      devices[i].open();
+      }
+
+      await devices[i].init();
+      await addDevicetoDOM(devices[i]);
+
     };
   }
 }
 
-function addDevicetoDOM(device) {
+const addDevicetoDOM = (device) => {
     let container = document.getElementById("devices");
     let devicediv = container.appendChild(document.createElement("div"));
 
@@ -57,7 +72,7 @@ function addDevicetoDOM(device) {
     let heading = devicediv.appendChild(document.createElement("h3"));
     heading.textContent = device.ip;
     heading.classList.add("statusLight");
-    heading.id = "offline";
+    heading.id = device.state;
 
     devicediv.appendChild(document.createTextNode(device.name));
 
@@ -81,5 +96,41 @@ function addDevicetoDOM(device) {
          device.sendValues();
       });
     };
-
 }
+
+const fadeTest = async () => {
+
+  //in development
+
+  let device = devices[1];
+  let fps = config.maxfps;
+
+  //check which values differ from current state
+
+  for (let i=0; i<200; i++) {
+    device.values[0] += 5;
+    device.sendValues();
+    console.log("value "+device.values[0])
+    await sleep(1000/fps);
+  }
+}
+
+
+
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+const passive_promise = () => {
+    var resolve_, reject_;
+
+    var promise = new Promise((resolve, reject) => {
+        resolve_ = resolve;
+        reject_ = reject;
+    });
+
+    promise.resolve = resolve_;
+    promise.reject = reject_;
+
+    return promise;
+};
+
+window.onload = setup;

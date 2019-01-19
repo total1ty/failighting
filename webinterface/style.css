@@ -135,12 +135,16 @@ body {
   }
 }
 
-.statusLight#online,.statusLight#rx {
+.statusLight#online {
   background: #080;
 }
 
 .statusLight#tx {
-  background: #0a8;
+  background: #0b8 !important;
+}
+
+.statusLight#rx {
+  background: #088;
 }
 
 .statusLight#rx:after {
@@ -183,5 +187,5 @@ body {
 }
 
 #debug {
-  display: none;
+
 }
