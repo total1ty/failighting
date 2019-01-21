@@ -136,22 +136,34 @@ class failScene {
   async fade(device, scene, duration) {
     //calculate frame count
     let frames = Math.floor(duration * config.max_fps/1000);
-    //instantly set new value if values are identical or fade length <= 1 frame
-    //TODO: The first condition always returns false, no idea why. This has worked at some point in the past, but broke somehow.
-    if ((device.values.concat() == scene.values.concat()) || (frames<=1)) {
-      device.values = scene.values.concat();
-      device.sendValues();
+    //instantly set new value if fade length <= 1 frame
+    if (frames<=1) {
+      this.changed = false;
+      for (let j=0; j<device.values.length; j++) {
+        if ((scene.values[j] != -1) && (device.values[j] != scene.values[j])) {
+          this.changed = true;
+          device.values[j] = scene.values[j];
+        };
+      };
+      if (this.changed) {
+        device.sendValues();
+      }
     }
     //fade!
     else {
       let startvalues = device.values.concat();
       for (let i=0; i<frames; i++) {
+        this.changed = false;
         for (let j=0; j<device.values.length; j++) {
-          if (scene.values[j] != -1) {
-            device.values[j] = einterp(startvalues[j], scene.values[j], (i+1)/frames)
+          //if channel participates (!= -1) and is not already at target value, set device value to scene value
+          if ((scene.values[j] != -1) && (device.values[j] != scene.values[j])) {
+            this.changed = true;
+            device.values[j] = einterp(startvalues[j], scene.values[j], (i+1)/frames);
           };
         };
-        device.sendValues();
+        if (this.changed) {
+          device.sendValues();
+        }
         await sleep(1000/config.max_fps);
       }
     }
