@@ -11,7 +11,7 @@
     {"name":"esp-05", "ip":"192.168.0.195", "channels":4},
     {"name":"failighting-to-dmx-01", "ip":"192.168.0.196", "channels":512}
   ],
-  
+
   "scenes": [
     {"name":"testScene", "group":"livingroom", "fade":1000, "devices": [
         {"name":"esp-02", "values":[0,1,2,30,40,50,60,70,8]},
