@@ -14,28 +14,32 @@
 
   "scenes": [
     {"name":"testScene", "group":"livingroom", "fade":1000, "devices": [
-        {"name":"esp-02", "values":[0,1,2,30,40,50,60,70,8]},
-        {"name":"esp-03", "values":[40,50,60,7,8,9,10,110,120]}
+        {"name":"esp-02", "values":[0,0,0,0,0,0,0,0,0]},
+        {"name":"esp-03", "values":[0,0,0,0,0,0,0,0,0]}
       ]
     },
-    {"name":"testScene2", "group":"livingroom", "devices": [
-        {"name":"esp-02", "values":[400,500,600,700,600,500,400,800,600]}
+    {"name":"testSceneA", "group":"livingroom", "devices": [
+        {"name":"esp-02", "values":[400,500,600,700,-1,-1,-1,-1,-1]}
       ]
     },
-    {"name":"testScene3", "group":"livingroom", "fade":0, "devices": [
+    {"name":"testSceneB", "group":"livingroom", "devices": [
+        {"name":"esp-02", "values":[-1,-1,-1,-1,-1,400,500,600,700]}
+      ]
+    },
+    {"name":"testSceneC", "group":"livingroom", "fade":0, "devices": [
         {"name":"esp-03", "values":[400,500,600,700,800,900,1000,900,800]}
       ]
     },
-    {"name":"testScene4", "group":"office", "devices": [
+    {"name":"testSceneD", "group":"office", "devices": [
         {"name":"esp-04", "values":[0,0,200,300]},
         {"name":"esp-05", "values":[400,500,600,700]}
       ]
     },
-    {"name":"testScene5", "group":"global", "devices": [
+    {"name":"testSceneE", "group":"global", "devices": [
         {"name":"esp-05", "values":[100,100,200,300]}
       ]
     },
-    {"name":"testScene6", "group":"global", "devices": [
+    {"name":"testSceneF", "group":"global", "devices": [
         {"name":"esp-04", "values":[100,100,200,300]},
         {"name":"esp-05", "values":[0,0,0,0]}
       ]
