@@ -102,7 +102,7 @@ class failScene {
   constructor(scenedata) {
     this.name = scenedata.name;
     this.group = scenedata.group;
-    this.scenevalues = scenedata.devices;
+    this.scenedevices = scenedata.devices;
 
     if (typeof(scenedata.fade) !== 'undefined') {
       this.fadeduration = scenedata.fade;
@@ -111,11 +111,11 @@ class failScene {
       this.fadeduration = config.fade_default;
     }
     //gather involved devices
-    this.scenedevices = {};
-    for (let i=0; i<this.scenevalues.length; i++) {
+    this.realdevices = {};
+    for (let i=0; i<this.scenedevices.length; i++) {
         for (let j=0; j<devices.length; j++) {
-          if (this.scenevalues[i].name == devices[j].name) {
-            this.scenedevices[i] = devices[j];
+          if (this.scenedevices[i].name == devices[j].name) {
+            this.realdevices[i] = devices[j];
           }
         }
     }
@@ -127,12 +127,12 @@ class failScene {
       return false;
     };
     //call fade per device
-    for (let i=0; i<this.scenevalues.length; i++) {
-      if(this.scenedevices[i].values.length == this.scenevalues[i].values.length) {
-        this.fade(this.scenedevices[i], this.scenevalues[i], this.fadeduration);
+    for (let i=0; i<this.scenedevices.length; i++) {
+      if(this.realdevices[i].values.length == this.scenedevices[i].values.length) {
+        this.fade(this.realdevices[i], this.scenedevices[i], this.fadeduration);
       }
       else {
-        console.log("SCENE: "+this.name+" - DEVICE: "+this.scenedevices[i].name+" - ERROR: tried to set keyframe with non-matching value count. ignoring device. you can ignore this too if you dont care.")
+        console.log("SCENE: "+this.name+" - DEVICE: "+this.realdevices[i].name+" - ERROR: tried to set keyframe with non-matching value count. ignoring device. you can ignore this too if you dont care.")
       }
     }
   };
@@ -152,7 +152,9 @@ class failScene {
       let startvalues = device.values.concat();
       for (let i=0; i<frames; i++) {
         for (let j=0; j<device.values.length; j++) {
-          device.values[j] = einterp(startvalues[j], scene.values[j], (i+1)/frames);
+          if (scene.values[j] != -1) {
+            device.values[j] = einterp(startvalues[j], scene.values[j], (i+1)/frames)
+          };
         };
         device.sendValues();
         await sleep(1000/config.max_fps);
