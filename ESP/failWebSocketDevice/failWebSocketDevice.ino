@@ -31,11 +31,10 @@ void setup() {
   Serial.begin(115200);
   Serial.println("Serial connection initialized");
   for (int i=0; i<OutputPinCount; i++) {
-    //Serial.println("Initializing GPIO Pin "+String(OutputPins[i])+" as Port "+String(i));
     pinMode(OutputPins[i],OUTPUT);
   }
 
-  //BOOTUP ANIMATION - FADE WARM WHITE TO 900
+  //BOOTUP ANIMATION - FADE WARM WHITE TO 900 - TODO: this should not be hard-coded
   for (int i=0; i<=900; i++) {
     OutputValues[4] = i;
     analogWrite(OutputPins[4], i);
@@ -53,7 +52,6 @@ void setup() {
   Serial.println(WiFi.localIP());
   webSocket.begin();
   webSocket.onEvent(webSocketEvent);
-
 }
 
 void broadcastOutputs() {
@@ -90,7 +88,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght
         {
         String text = String((char *) &payload[0]);
 
-        //JSON Mode!!
+        //JSON
         if (text.startsWith("{")) {
           StaticJsonBuffer<200> jsonBuffer2;
           JsonObject& root = jsonBuffer2.parseObject((char *) &payload[0]);
@@ -106,7 +104,6 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght
           else if (root.containsKey("info")) {
             webSocket.sendTXT(num, deviceInfo);
           }
-
           jsonBuffer2.clear();
         }
 
@@ -124,17 +121,6 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght
   }
 }
 
-
-
-
 void loop() {
-  //static unsigned long last = 0;
-
-  //delay(1000);
   webSocket.loop();
-  /*if(abs(millis() - last) > 1000) {
-    webSocket.sendTXT(String(millis()));
-    last = millis();
-  }*/
-
 }
