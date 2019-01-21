@@ -1,6 +1,7 @@
 var keepAliveInterval = 5;
 var devices = [];
 var scenes = [];
+var scenefading = false;
 
 const setup = async() => {
 
@@ -69,6 +70,9 @@ const setup = async() => {
   };
 };
 
+
+//DOM element adders
+
 const addDevicetoDOM = (device) => {
     let container = document.getElementById("devices");
     let devicediv = container.appendChild(document.createElement("div"));
@@ -105,8 +109,6 @@ const addDevicetoDOM = (device) => {
     };
 }
 
-
-
 const addScenetoDOM = (scenedata) => {
   if (document.querySelector("#scenes > #"+scenedata.group)) {
     //select existing group
@@ -122,7 +124,6 @@ const addScenetoDOM = (scenedata) => {
     heading.textContent = scenedata.group;
   };
 
-
   //scene in die group reintun tun
   let scene = groupdiv.appendChild(document.createElement("div"));
   scene.id = scenedata.name;
@@ -134,32 +135,23 @@ const addScenetoDOM = (scenedata) => {
   scene.addEventListener("click", () => {
      scenedata.trigger();
   });
-
 }
 
-
-
-const fadeTest = async () => {
-
-  //in development
-
-  let device = devices[1];
-  let fps = config.maxfps;
-
-  //check which values differ from current state
-
-  for (let i=0; i<200; i++) {
-    device.values[0] = i*5;
-    device.sendValues();
-    console.log("value "+device.values[0])
-    await sleep(1000/fps);
-  }
-}
-
-
-
+//UTILS
+//sleep
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+//linear interpolation
+const linterp = (a, b, n) => {
+  return (1 - n) * a + n * b;
+}
+
+//ease in/out interpolation
+const einterp = (a, b, n) => {
+  return linterp(a, b, n<.5 ? 2*n*n : -1+(4-2*n)*n);
+}
+
+//passive promise
 const passive_promise = () => {
     var resolve_, reject_;
 
@@ -172,8 +164,7 @@ const passive_promise = () => {
     promise.reject = reject_;
 
     return promise;
-};
+}
 
-
-
+//oh, yeah, and maybe launch all this shit.
 window.onload = setup;
