@@ -1,5 +1,6 @@
 wifiCredentials.h
 config.h
+config.json
 
 # packages
 *.7z
