@@ -122,10 +122,6 @@ class failScene {
   };
 
   async trigger() {
-    //return if there's already another fade currently running
-    if (scenefading) {
-      return false;
-    };
     //call fade per device
     for (let i=0; i<this.scenedevices.length; i++) {
       if(this.realdevices[i].values.length == this.scenedevices[i].values.length) {
@@ -148,7 +144,6 @@ class failScene {
     }
     //fade!
     else {
-      scenefading = true;
       let startvalues = device.values.concat();
       for (let i=0; i<frames; i++) {
         for (let j=0; j<device.values.length; j++) {
@@ -160,6 +155,5 @@ class failScene {
         await sleep(1000/config.max_fps);
       }
     }
-    scenefading = false;
   };
 };

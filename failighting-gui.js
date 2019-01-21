@@ -1,7 +1,5 @@
-var keepAliveInterval = 5;
 var devices = [];
 var scenes = [];
-var scenefading = false;
 
 const setup = async() => {
 
