@@ -47,10 +47,8 @@ class failDevice {
   }
 
   async open() {
-
     if (this.state=="offline") {
       this.updateState("opening");
-
       this.connection = new WebSocket("ws://"+this.ip+":"+this.port+"/");
 
       this.connection.addEventListener("open", () => {
@@ -72,32 +70,23 @@ class failDevice {
 
       this.connection.addEventListener("message", (message) => {
         this.updateState("rx");
-
         try {
            this.msg = JSON.parse(message.data);
         }
         catch(error) {
           console.log("JSON PARSE ERROR " + this.ip + " - " + message.data);
         }
-
         if(this.msg.values) {
           for (var i=0; i<this.values.length; i++) {
               this.values[i] = this.msg.values[i];
           }
           this.handlers.updateValuesHandler(this);
         }
-
-        if(this.msg.info) {
-          //this.name = this.msg.info.name;
-          //this.handlers.addtoDOMHandler(this);
-        }
-
         this.updateState("online");
       });
       return 1;
     }
     else {
-      //console.log("OPEN CALLED BUT STATE NOT OFFLINE");
       return 0;
     }
   }
@@ -121,7 +110,6 @@ class failScene {
     else {
       this.fadeduration = config.fade_default;
     }
-
     //gather involved devices
     this.scenedevices = {};
     for (let i=0; i<this.scenevalues.length; i++) {
@@ -138,7 +126,6 @@ class failScene {
     if (scenefading) {
       return false;
     };
-
     //call fade per device
     for (let i=0; i<this.scenevalues.length; i++) {
       if(this.scenedevices[i].values.length == this.scenevalues[i].values.length) {
@@ -153,14 +140,12 @@ class failScene {
   async fade(device, scene, duration) {
     //calculate frame count
     let frames = Math.floor(duration * config.max_fps/1000);
-
     //instantly set new value if values are identical or fade length <= 1 frame
     //TODO: The first condition always returns false, no idea why. This has worked at some point in the past, but broke somehow.
     if ((device.values.concat() == scene.values.concat()) || (frames<=1)) {
       device.values = scene.values.concat();
       device.sendValues();
     }
-
     //fade!
     else {
       scenefading = true;

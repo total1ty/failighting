@@ -53,10 +53,8 @@ const setup = async() => {
           }
         }
       }
-
       await devices[i].init();
       await addDevicetoDOM(devices[i]);
-
     };
   };
 
@@ -64,7 +62,6 @@ const setup = async() => {
   if (config.scenes) {
     for (var i=0; i<config.scenes.length; i++) {
       scenes[i] = new failScene(config.scenes[i]);
-
       addScenetoDOM(scenes[i]);
     };
   };
@@ -159,10 +156,8 @@ const passive_promise = () => {
         resolve_ = resolve;
         reject_ = reject;
     });
-
     promise.resolve = resolve_;
     promise.reject = reject_;
-
     return promise;
 }
 
