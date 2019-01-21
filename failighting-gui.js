@@ -4,7 +4,7 @@ var scenes = [];
 const setup = async() => {
 
   //READ CONFIG config.json
-  await fetch('./config.json')
+  await fetch("./config.json", {cache: "no-store"})
     .then(function(response) {
       if (!response.ok) {
         throw new Error("HTTP error, status = " + response.status);
