@@ -6,3 +6,5 @@
 #define CONFIG_IP04 191
 
 #define CONFIG_PORT 1337
+
+#define CONFIG_CHANNELS 9

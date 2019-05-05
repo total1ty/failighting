@@ -25,3 +25,4 @@ config.json
 .Trashes
 ehthumbs.db
 Thumbs.db
+ESP/ws2812test/ws2812test.ino

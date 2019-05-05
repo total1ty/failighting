@@ -16,8 +16,17 @@ const int port = CONFIG_PORT;
 const String deviceName = CONFIG_DEVICE_NAME;
 
 const int builtInLED = 4;
-const int OutputPinCount = 9;
-const int OutputPins[9] = {16, 5, 4, 0, 2, 14, 12, 13, 15};
+const int OutputPinCount = CONFIG_CHANNELS;
+int OutputPins[OutputPinCount];
+int OutputValues[OutputPinCount];
+
+/*if (OutputPinCount==4) {
+  int OutputValues[4] = {0, 0, 0, 0};
+}
+else {
+  int OutputValues[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+}*/
+
 
 String ipString = String(ip[0])+"."+String(ip[1])+"."+String(ip[2])+"."+String(ip[3])+":"+port;
 
@@ -25,21 +34,48 @@ String deviceInfo = "{\"info\":{\"name\":\""+deviceName+"\",\"ip\":\""+ipString+
 
 WebSocketsServer webSocket = WebSocketsServer(port, "*");
 
-int OutputValues[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+
 
 void setup() {
-  Serial.begin(115200);
-  Serial.println("Serial connection initialized");
-  for (int i=0; i<OutputPinCount; i++) {
-    pinMode(OutputPins[i],OUTPUT);
+  if (OutputPinCount==4) {
+    OutputPins[0] = 14;
+    OutputPins[1] = 12;
+    OutputPins[2] = 13;
+    OutputPins[3] = 5;
+  }
+  else {
+    OutputPins[0] = 16;
+    OutputPins[1] = 5;
+    OutputPins[2] = 4;
+    OutputPins[3] = 0;
+    OutputPins[4] = 2;
+    OutputPins[5] = 14;
+    OutputPins[6] = 12;
+    OutputPins[7] = 13;
+    OutputPins[8] = 15;
+    //OutputPins = {16, 5, 4, 0, 2, 14, 12, 13, 15};
   }
 
-  //BOOTUP ANIMATION - FADE WARM WHITE TO 900 - TODO: this should not be hard-coded
+  //set all channels to output & 0
+  for (int i=0; i<OutputPinCount; i++) {
+    OutputValues[i] = 0;
+    pinMode(OutputPins[i], OUTPUT);
+    analogWrite(OutputPins[i], 0);
+  }
+
+
+  //Serial.begin(115200);
+  //Serial.println("Serial connection initialized");
+
+  //BOOTUP ANIMATION - FADE WARM WHITE TO 900
+  //TODO: this should not be hard-coded...
   for (int i=0; i<=900; i++) {
-    OutputValues[4] = i;
-    analogWrite(OutputPins[4], i);
+    OutputValues[7] = i;
+    analogWrite(OutputPins[7], i);
     delay(1);
   }
+
+
 
   WiFi.config(ip, ip, subnet);
   WiFi.begin(ssid, password);
