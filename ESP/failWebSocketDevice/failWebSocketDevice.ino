@@ -34,8 +34,6 @@ String deviceInfo = "{\"info\":{\"name\":\""+deviceName+"\",\"ip\":\""+ipString+
 
 WebSocketsServer webSocket = WebSocketsServer(port, "*");
 
-
-
 void setup() {
   if (OutputPinCount==4) {
     OutputPins[0] = 14;
@@ -63,20 +61,21 @@ void setup() {
     analogWrite(OutputPins[i], 0);
   }
 
-
   //Serial.begin(115200);
   //Serial.println("Serial connection initialized");
 
   //BOOTUP ANIMATION - FADE WARM WHITE TO 900
   //TODO: this should not be hard-coded...
+  /*
   for (int i=0; i<=900; i++) {
     OutputValues[7] = i;
     analogWrite(OutputPins[7], i);
     delay(1);
   }
+  */
 
-
-
+  WiFi.mode(WIFI_STA);
+  WiFi.setAutoReconnect(true);
   WiFi.config(ip, ip, subnet);
   WiFi.begin(ssid, password);
 
@@ -84,6 +83,7 @@ void setup() {
         delay(1000);
         Serial.println("Waiting for WiFi connection...");
     }
+
   Serial.println("WiFi connected");
   Serial.println(WiFi.localIP());
   webSocket.begin();
