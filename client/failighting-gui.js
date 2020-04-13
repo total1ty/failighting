@@ -1,5 +1,7 @@
-var devices = [];
-var scenes = [];
+var devices = []
+var scenes = []
+
+var ws
 
 const setup = async() => {
 
@@ -18,7 +20,15 @@ const setup = async() => {
       console.log('JSON Read Error: ' + error.message)
     });
 
+    ws = new WebSocket("ws://"+config.server+":"+config.port+"/");
+
+    ws.onopen = function (event) {
+      ws.send("test");
+    };
+
+
   //INITIALIZE failDevices
+  /*
   if (config.devices) {
     for (var i=0; i<config.devices.length; i++) {
       let device = config.devices[i];
@@ -58,6 +68,7 @@ const setup = async() => {
       await addDevicetoDOM(devices[i]);
     };
   };
+  */
 
   //INITIALIZE failScenes
   if (config.scenes) {
@@ -67,6 +78,14 @@ const setup = async() => {
     };
   };
 };
+
+const setChannels = (device, newvalues) => {
+  ws.send('obend')
+  alert(device)
+  alert(newvalues)
+}
+
+
 
 
 //DOM element adders

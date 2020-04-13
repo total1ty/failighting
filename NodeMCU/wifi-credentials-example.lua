@@ -1,0 +1,2 @@
+SSID = "ssid"
+PASSWORD = "pwd"

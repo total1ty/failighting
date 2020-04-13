@@ -64,15 +64,23 @@ void setup() {
   //Serial.begin(115200);
   //Serial.println("Serial connection initialized");
 
-  //BOOTUP ANIMATION - FADE WARM WHITE TO 900
+  //BOOTUP ANIMATION 1 - FADE WARM WHITE TO 900 - FOR STUDIO 191
   //TODO: this should not be hard-coded...
-  /*
   for (int i=0; i<=900; i++) {
     OutputValues[7] = i;
     analogWrite(OutputPins[7], i);
     delay(1);
   }
-  */
+
+  //BOOTUP ANIMATION 2- FADE WARM WHITE TO 1023, FADE RED TO 1023 - FOR BEDROOM 195/196
+  /*for (int i=0; i<1023; i++) {
+    OutputValues[0] = i;
+    OutputValues[7] = i;
+    analogWrite(OutputPins[0], i);
+    analogWrite(OutputPins[7], i);
+    delay(1);
+  }*/
+
 
   WiFi.mode(WIFI_STA);
   WiFi.setAutoReconnect(true);

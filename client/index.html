@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, height=device-height">
+		<title>failighting</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script src="failighting-gui.js"></script>
+		<script src="failighting-modules.js"></script>
+	</head>
+	<body>
+		<div id="main" class="main">
+			<div class="tabs">
+
+				<input id="scenes-tab" type="radio" name="tabs" checked="checked"/>
+				<label for="scenes-tab" class="tab0">Scenes</label>
+				<div id="scenes" class="scenes">
+				</div>
+
+				<input id="control-tab" type="radio" name="tabs"/>
+				<label for="control-tab" class="tab1">Control</label>
+				<div id="control" class="control">
+					loel tbd
+				</div>
+
+				<input id="devices-tab" type="radio" name="tabs"/>
+				<label for="devices-tab" class="tab2">Devices</label>
+				<div id="devices" class="devices">
+				</div>
+
+				<input id="debug-tab" type="radio" name="tabs"/>
+				<label for="debug-tab" class="tab3">Debug</label>
+				<div id="debug" class="debug">
+					<span onclick="setChannels('esp01', [[1,250],[2,420]])" style="background-color:grey;">setChannels('esp01', [[1,250],[2,420]])</span>
+					<span onclick="devices[1].init();" style="background-color:grey;">init device01</span>
+				</div>
+
+			</div>
+		</div>
+	</body>
+</html>
